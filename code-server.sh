@@ -37,6 +37,7 @@ sudo cat << 'EOF' > /etc/nginx/sites-available/code-server
         }
     }
 EOF
+sudo ln -s /etc/nginx/sites-available/code-server /etc/nginx/sites-enabled/code-server
 
 # Install fonts
 sudo mkdir -p /var/www/html/custom-fonts/fonts
@@ -71,3 +72,5 @@ sudo cat << 'EOF' > /var/www/html/custom-fonts/css/fonts.css
         font-style: italic;
     }
 EOF
+
+sudo systemctl restart nginx
