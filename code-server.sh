@@ -21,7 +21,7 @@ server {
 
         sub_filter
         '</head>'
-        '<link rel="stylesheet" type="text/css" href="/custom-fonts/css/fonts.css">
+        '<link rel="stylesheet" type="text/css" href="/code-server/css/fonts.css">
         </head>';
         sub_filter_once on;
 
@@ -31,7 +31,7 @@ server {
         proxy_redirect off;
     }
 
-    location /fonts {
+    location /code-server {
         autoindex on;
         root /var/www/html;
     }
@@ -40,34 +40,34 @@ EOF
 sudo ln -s /etc/nginx/sites-available/code-server /etc/nginx/sites-enabled/code-server
 
 # Install fonts
-sudo mkdir -p /var/www/html/custom-fonts/fonts
-sudo wget https://raw.githubusercontent.com/romkatv/powerlevel10k-media/master/MesloLGS%20NF%20Regular.ttf -P /var/www/html/custom-fonts/fonts
-sudo wget https://raw.githubusercontent.com/romkatv/powerlevel10k-media/master/MesloLGS%20NF%20Bold.ttf -P /var/www/html/custom-fonts/fonts
-sudo wget https://raw.githubusercontent.com/romkatv/powerlevel10k-media/master/MesloLGS%20NF%20Italic.ttf -P /var/www/html/custom-fonts/fonts
-sudo wget https://raw.githubusercontent.com/romkatv/powerlevel10k-media/master/MesloLGS%20NF%20Bold%20Italic.ttf -P /var/www/html/custom-fonts/fonts
-sudo mkdir -p /var/www/html/custom-fonts/css
-sudo cat << 'EOF' | sudo tee /var/www/html/custom-fonts/css/fonts.css
+sudo mkdir -p /var/www/html/code-server/fonts
+sudo wget https://raw.githubusercontent.com/romkatv/powerlevel10k-media/master/MesloLGS%20NF%20Regular.ttf -P /var/www/html/code-server/fonts
+sudo wget https://raw.githubusercontent.com/romkatv/powerlevel10k-media/master/MesloLGS%20NF%20Bold.ttf -P /var/www/html/code-server/fonts
+sudo wget https://raw.githubusercontent.com/romkatv/powerlevel10k-media/master/MesloLGS%20NF%20Italic.ttf -P /var/www/html/code-server/fonts
+sudo wget https://raw.githubusercontent.com/romkatv/powerlevel10k-media/master/MesloLGS%20NF%20Bold%20Italic.ttf -P /var/www/html/code-server/fonts
+sudo mkdir -p /var/www/html/code-server/css
+sudo cat << 'EOF' | sudo tee /var/www/html/code-server/css/fonts.css
 @font-face {
 font-family: "MesloLGS NF";
-src: url("/custom-fonts/fonts/MesloLGS%20NF%20Regular.ttf");
+src: url("/code-server/fonts/MesloLGS%20NF%20Regular.ttf");
 font-weight: normal;
 font-style: normal;
 }
 @font-face {
     font-family: "MesloLGS NF";
-    src: url("/custom-fonts/fonts/MesloLGS%20NF%20Bold.ttf");
+    src: url("/code-server/fonts/MesloLGS%20NF%20Bold.ttf");
     font-weight: bold;
     font-style: normal;
 }
 @font-face {
     font-family: "MesloLGS NF";
-    src: url("/custom-fonts/fonts/MesloLGS%20NF%20Italic.ttf");
+    src: url("/code-server/fonts/MesloLGS%20NF%20Italic.ttf");
     font-weight: normal;
     font-style: italic;
 }
 @font-face {
     font-family: "MesloLGS NF";
-    src: url("/custom-fonts/fonts/MesloLGS%20NF%20Bold%20Italic.ttf");
+    src: url("/code-server/fonts/MesloLGS%20NF%20Bold%20Italic.ttf");
     font-weight: bold;
     font-style: italic;
 }
