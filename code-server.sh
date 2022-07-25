@@ -6,7 +6,7 @@ sudo systemctl enable --now code-server@${USER}
 sudo apt-get update && sudo apt-get -y install nginx
 
 # Install NGINX proxy
-sudo cat << 'EOF' > sudo tee -a /etc/nginx/sites-available/code-server
+sudo cat << 'EOF' > sudo tee /etc/nginx/sites-available/code-server
     server {
         listen 8081;
 
@@ -46,7 +46,7 @@ sudo wget https://raw.githubusercontent.com/romkatv/powerlevel10k-media/master/M
 sudo wget https://raw.githubusercontent.com/romkatv/powerlevel10k-media/master/MesloLGS%20NF%20Italic.ttf -P /var/www/html/custom-fonts/fonts
 sudo wget https://raw.githubusercontent.com/romkatv/powerlevel10k-media/master/MesloLGS%20NF%20Bold%20Italic.ttf -P /var/www/html/custom-fonts/fonts
 sudo mkdir -p /var/www/html/custom-fonts/css
-sudo cat << 'EOF' > sudo tee -a /var/www/html/custom-fonts/css/fonts.css
+sudo cat << 'EOF' > sudo tee /var/www/html/custom-fonts/css/fonts.css
     @font-face {
     font-family: "MesloLGS NF";
     src: url("/custom-fonts/fonts/MesloLGS%20NF%20Regular.ttf");
