@@ -2,14 +2,13 @@
 export VERSION=4.4.0
 curl -fOL "https://github.com/coder/code-server/releases/download/v${VERSION}/code-server_${VERSION}_amd64.deb"
 sudo dpkg -i "code-server_${VERSION}_amd64.deb"
+sudo systemctl enable --now code-server@${USER}
 
 cat << 'EOF' > ~/.config/code-server/config.yaml
 bind-addr: 127.0.0.1:8080
 auth: none
 cert: false
 EOF
-
-sudo systemctl enable --now code-server@${USER}
 
 cat << 'EOF' > ~/.local/share/code-server/User/settings.json
 {
@@ -24,6 +23,8 @@ cat << 'EOF' > ~/.local/share/code-server/User/settings.json
 EOF
 
 code-server --install-extension GitHub.github-vscode-theme
+
+sudo systemctl restart --now code-server@${USER}
 
 sudo apt-get update && sudo apt-get -y install nginx libnginx-mod-http-subs-filter
 
