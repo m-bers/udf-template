@@ -4,12 +4,14 @@ curl -fOL "https://github.com/coder/code-server/releases/download/v${VERSION}/co
 sudo dpkg -i "code-server_${VERSION}_amd64.deb"
 sudo systemctl enable --now code-server@${USER}
 
+mkdir -p ~/.config/code-server/config.yaml
 cat << 'EOF' > ~/.config/code-server/config.yaml
 bind-addr: 127.0.0.1:8080
 auth: none
 cert: false
 EOF
 
+mkdir -p ~/.local/share/code-server/User/
 cat << 'EOF' > ~/.local/share/code-server/User/settings.json
 {
     "workbench.colorTheme": "GitHub Dark Default",
@@ -18,7 +20,8 @@ cat << 'EOF' > ~/.local/share/code-server/User/settings.json
     "workbench.editorAssociations": {
         "*.md": "vscode.markdown.preview.editor"
     },
-    "explorer.sortOrder": "type"
+    "explorer.sortOrder": "type",
+    "terminal.integrated.defaultProfile.linux": "zsh"
 }
 EOF
 
@@ -26,7 +29,7 @@ code-server --install-extension GitHub.github-vscode-theme
 
 sudo systemctl restart --now code-server@${USER}
 
-sudo apt-get update && sudo apt-get -y install nginx libnginx-mod-http-subs-filter
+sudo apt-get update && sudo apt-get -y install nginx libnginx-mod-http-subs-filter zsh
 
 # Install NGINX proxy
 sudo cat << 'EOF' | sudo tee /etc/nginx/sites-available/code-server
@@ -98,3 +101,6 @@ font-style: normal;
 EOF
 
 sudo systemctl restart nginx
+
+git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k
+echo 'source ~/powerlevel10k/powerlevel10k.zsh-theme' >>~/.zshrc
