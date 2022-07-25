@@ -72,10 +72,10 @@ sudo ln -s /etc/nginx/sites-available/code-server /etc/nginx/sites-enabled/code-
 
 # Install icons
 sudo mkdir -p /var/www/html/code-server/_static/src/browser/media
-sudo wget https://raw.githubusercontent.com/m-bers/udf-template/main/vscode/code-192.png -P /var/www/html/code-server/_static/src/browser/media
-sudo wget https://raw.githubusercontent.com/m-bers/udf-template/main/vscode/code-512.png -P /var/www/html/code-server/_static/src/browser/media
+sudo wget https://github.com/m-bers/udf-template/raw/main/vscode/code-192.png -P /var/www/html/code-server/_static/src/browser/media
+sudo wget https://github.com/m-bers/udf-template/raw/main/vscode/code-512.png -P /var/www/html/code-server/_static/src/browser/media
 sudo wget https://raw.githubusercontent.com/m-bers/udf-template/main/vscode/favicon-dark-support.svg -P /var/www/html/code-server/_static/src/browser/media
-sudo wget https://raw.githubusercontent.com/m-bers/udf-template/main/vscode/favico.ico -P /var/www/html/code-server/_static/src/browser/media
+sudo wget https://raw.githubusercontent.com/m-bers/udf-template/main/vscode/favicon.ico -P /var/www/html/code-server/_static/src/browser/media
 
 # Install fonts
 sudo mkdir -p /var/www/html/code-server/fonts
