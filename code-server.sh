@@ -1,4 +1,30 @@
 #!/bin/bash
+
+# UDF Console steps:
+# In the sidebar, click Deployments, then click Create Deployment in the top right
+# Set provider to UDF and give the deployment a name
+# Open the new deployment, click "Cloud Accounts", then "Add AWS Cloud Account"
+# Click Components, then Systems, then Add.
+# Choose template Ubuntu 20.04 LTS Server
+# Set to 4 vCPUs, 15GB RAM, 370GB Disk, then click Create
+# Click start, and select n1-standard-4 as the deployment size
+# SSH into the Ubuntu VM once started
+
+# Get latest AWS credentials from UDI API
+mkdir -p ~/.aws
+printf "[default]\naws_access_key_id=" > ~/.aws/credentials
+curl -s 10.1.1.1/cloudAccounts | jq '.cloudAccounts[0]' | jq -r ' .apiKey' >> ~/.aws/credentials
+printf "aws_secret_access_key=" >> ~/.aws/credentials
+curl -s 10.1.1.1/cloudAccounts | jq '.cloudAccounts[0]' | jq -r ' .apiSecret' >> ~/.aws/credentials
+printf "[default]\nregion=us-west-2" > ~/.aws/config
+
+# Install AWS CLI
+sudo apt-get update && sudo apt-get -y install unzip jq git curl
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+unzip awscliv2.zip
+sudo ./aws/install
+
+# Install code-server
 export VERSION=4.4.0
 curl -fOL "https://github.com/coder/code-server/releases/download/v${VERSION}/code-server_${VERSION}_amd64.deb"
 sudo dpkg -i "code-server_${VERSION}_amd64.deb"
@@ -115,4 +141,11 @@ EOF
 sudo systemctl restart nginx
 wget https://raw.githubusercontent.com/m-bers/udf-template/main/.p10k.zsh -P ~
 git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k
-echo 'source ~/powerlevel10k/powerlevel10k.zsh-theme' >>~/.zshrc
+
+cat << EOF > ~/.zshrc
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+source ~/powerlevel10k/powerlevel10k.zsh-theme
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+EOF
