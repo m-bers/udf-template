@@ -4,14 +4,14 @@ curl -fOL "https://github.com/coder/code-server/releases/download/v${VERSION}/co
 sudo dpkg -i "code-server_${VERSION}_amd64.deb"
 sudo systemctl enable --now code-server@${USER}
 
-mkdir -p ~/.config/code-server/config.yaml
+mkdir -p ~/.config/code-server
 cat << 'EOF' > ~/.config/code-server/config.yaml
 bind-addr: 127.0.0.1:8080
 auth: none
 cert: false
 EOF
 
-mkdir -p ~/.local/share/code-server/User/
+mkdir -p ~/.local/share/code-server/User
 cat << 'EOF' > ~/.local/share/code-server/User/settings.json
 {
     "workbench.colorTheme": "GitHub Dark Default",
@@ -61,9 +61,21 @@ server {
         autoindex on;
         root /var/www/html;
     }
+
+    location /_static/src/browser/media {
+        autoindex on;
+        root /var/www/html/code-server;
+    }
 }
 EOF
 sudo ln -s /etc/nginx/sites-available/code-server /etc/nginx/sites-enabled/code-server
+
+# Install icons
+sudo mkdir -p /var/www/html/code-server/_static/src/browser/media
+sudo wget https://raw.githubusercontent.com/m-bers/udf-template/main/vscode/code-192.png -P /var/www/html/code-server/_static/src/browser/media
+sudo wget https://raw.githubusercontent.com/m-bers/udf-template/main/vscode/code-512.png -P /var/www/html/code-server/_static/src/browser/media
+sudo wget https://raw.githubusercontent.com/m-bers/udf-template/main/vscode/favicon-dark-support.svg -P /var/www/html/code-server/_static/src/browser/media
+sudo wget https://raw.githubusercontent.com/m-bers/udf-template/main/vscode/favico.ico -P /var/www/html/code-server/_static/src/browser/media
 
 # Install fonts
 sudo mkdir -p /var/www/html/code-server/fonts
