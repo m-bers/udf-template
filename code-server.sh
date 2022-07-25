@@ -1,9 +1,31 @@
 #!/bin/bash
-export VERSION=4.5.1
+export VERSION=4.4.0
 curl -fOL "https://github.com/coder/code-server/releases/download/v${VERSION}/code-server_${VERSION}_amd64.deb"
 sudo dpkg -i "code-server_${VERSION}_amd64.deb"
+
+cat << 'EOF' > ~/.config/code-server/config.yaml
+bind-addr: 127.0.0.1:8080
+auth: none
+cert: false
+EOF
+
 sudo systemctl enable --now code-server@${USER}
-sudo apt-get update && sudo apt-get -y install nginx
+
+cat << 'EOF' > ~/.local/share/code-server/User/settings.json
+{
+    "workbench.colorTheme": "GitHub Dark Default",
+    "terminal.integrated.fontFamily": "MesloLGS NF",
+    "security.workspace.trust.enabled": false,
+    "workbench.editorAssociations": {
+        "*.md": "vscode.markdown.preview.editor"
+    },
+    "explorer.sortOrder": "type"
+}
+EOF
+
+code-server --install-extension GitHub.github-vscode-theme
+
+sudo apt-get update && sudo apt-get -y install nginx libnginx-mod-http-subs-filter
 
 # Install NGINX proxy
 sudo cat << 'EOF' | sudo tee /etc/nginx/sites-available/code-server
@@ -46,6 +68,7 @@ sudo wget https://raw.githubusercontent.com/romkatv/powerlevel10k-media/master/M
 sudo wget https://raw.githubusercontent.com/romkatv/powerlevel10k-media/master/MesloLGS%20NF%20Italic.ttf -P /var/www/html/code-server/fonts
 sudo wget https://raw.githubusercontent.com/romkatv/powerlevel10k-media/master/MesloLGS%20NF%20Bold%20Italic.ttf -P /var/www/html/code-server/fonts
 sudo mkdir -p /var/www/html/code-server/css
+
 sudo cat << 'EOF' | sudo tee /var/www/html/code-server/css/fonts.css
 @font-face {
 font-family: "MesloLGS NF";
